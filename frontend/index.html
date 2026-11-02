@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StringCraft - String Manipulation Toolkit</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body data-theme="dark">
+    <!-- Main App Container -->
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-icon">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <div class="brand-info">
+                    <h2>StringCraft</h2>
+                    <span class="badge">DSA Toolkit</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-menu">
+                <div class="menu-label">Main Toolkit</div>
+                <a href="#editor-section" class="nav-item active" data-nav="operations">
+                    <i class="fa-solid fa-cubes"></i>
+                    <span>Operations</span>
+                </a>
+                <a href="#history-section" class="nav-item" data-nav="history">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span>Recent History</span>
+                </a>
+                
+                <div class="menu-label">Project & Info</div>
+                <a href="#about-section" class="nav-item" data-nav="about">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>About StringCraft</span>
+                </a>
+                <a href="#profile-section" class="nav-item" data-nav="profile">
+                    <i class="fa-solid fa-user-astronaut"></i>
+                    <span>Developer Profile</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="server-status" id="server-status">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Backend: Port 8080</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="top-header">
+                <div class="header-title">
+                    <h1>String Manipulation Toolkit</h1>
+                    <p>High-performance Java backend DSA string algorithms with real-time UI</p>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle" title="Toggle Theme" aria-label="Toggle Theme">
+                        <i class="fa-solid fa-sun light-icon"></i>
+                        <i class="fa-solid fa-moon dark-icon"></i>
+                    </button>
+                    <a href="https://github.com" target="_blank" class="btn btn-outline" id="repo-link">
+                        <i class="fa-brands fa-github"></i>
+                        <span>Source Code</span>
+                    </a>
+                </div>
+            </header>
+
+            <div class="content-body">
+                <!-- Workspace: Input Editor + Output Panel -->
+                <section id="editor-section" class="workspace-section">
+                    <div class="editor-grid">
+                        <!-- Input Box Panel -->
+                        <div class="card glass-panel editor-card">
+                            <div class="card-header">
+                                <div class="header-left">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                    <h3>Text Editor</h3>
+                                </div>
+                                <div class="counter-chips">
+                                    <span class="chip"><strong id="char-count">0</strong> chars</span>
+                                    <span class="chip"><strong id="word-count">0</strong> words</span>
+                                    <span class="chip"><strong id="line-count">0</strong> lines</span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <textarea id="text-input" placeholder="Type or paste text here to manipulate with Java DSA algorithms..." rows="8"></textarea>
+                            </div>
+                            <div class="card-footer actions-bar">
+                                <div class="left-actions">
+                                    <button class="btn btn-ghost" id="btn-sample">
+                                        <i class="fa-solid fa-lightbulb"></i> Sample Text
+                                    </button>
+                                </div>
+                                <div class="right-actions">
+                                    <button class="btn btn-secondary" id="btn-clear">
+                                        <i class="fa-solid fa-trash-can"></i> Clear
+                                    </button>
+                                    <button class="btn btn-outline-alt" id="btn-paste">
+                                        <i class="fa-solid fa-paste"></i> Paste
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Output Display Panel -->
+                        <div class="card glass-panel output-card">
+                            <div class="card-header">
+                                <div class="header-left">
+                                    <i class="fa-solid fa-terminal"></i>
+                                    <h3>Output Panel</h3>
+                                </div>
+                                <div class="badge-op" id="current-op-badge">Awaiting Input</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="output-wrapper">
+                                    <div class="output-placeholder" id="output-placeholder">
+                                        <i class="fa-solid fa-bolt-lightning"></i>
+                                        <p>Select an operation card below to execute</p>
+                                    </div>
+                                    <div class="output-content hidden" id="output-content">
+                                        <pre><code id="output-text"></code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer actions-bar">
+                                <div class="left-actions">
+                                    <span class="time-stat" id="execution-time"><i class="fa-regular fa-clock"></i> 0 ms</span>
+                                </div>
+                                <div class="right-actions">
+                                    <button class="btn btn-primary" id="btn-copy">
+                                        <i class="fa-regular fa-copy"></i> Copy Result
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Seven Operation Cards Grid -->
+                <section class="operations-section">
+                    <div class="section-title">
+                        <h2><i class="fa-solid fa-microchip"></i> 7 Core DSA Operations</h2>
+                        <p>Powered by Spring Boot 3 REST APIs & optimized algorithms</p>
+                    </div>
+
+                    <div class="operations-grid">
+                        <!-- 1. Reverse String -->
+                        <div class="op-card" data-operation="reverse">
+                            <div class="op-icon purple"><i class="fa-solid fa-arrow-right-arrow-left"></i></div>
+                            <div class="op-details">
+                                <h4>1. Reverse String</h4>
+                                <p>Two-pointer in-place array swap algorithm</p>
+                            </div>
+                            <button class="btn-execute">Execute <i class="fa-solid fa-play"></i></button>
+                        </div>
+
+                        <!-- 2. Count Vowels -->
+                        <div class="op-card" data-operation="count-vowels">
+                            <div class="op-icon blue"><i class="fa-solid fa-font"></i></div>
+                            <div class="op-details">
+                                <h4>2. Count Vowels</h4>
+                                <p>Count occurrences of (a, e, i, o, u)</p>
+                            </div>
+                            <button class="btn-execute">Execute <i class="fa-solid fa-play"></i></button>
+                        </div>
+
+                        <!-- 3. Count Consonants -->
+                        <div class="op-card" data-operation="count-consonants">
+                            <div class="op-icon green"><i class="fa-solid fa-spell-check"></i></div>
+                            <div class="op-details">
+                                <h4>3. Count Consonants</h4>
+                                <p>Count non-vowel alphabetic characters</p>
+                            </div>
+                            <button class="btn-execute">Execute <i class="fa-solid fa-play"></i></button>
+                        </div>
+
+                        <!-- 4. Count Digits -->
+                        <div class="op-card" data-operation="count-digits">
+                            <div class="op-icon amber"><i class="fa-solid fa-hashtag"></i></div>
+                            <div class="op-details">
+                                <h4>4. Count Digits</h4>
+                                <p>Counts numerical digits (0-9)</p>
+                            </div>
+                            <button class="btn-execute">Execute <i class="fa-solid fa-play"></i></button>
+                        </div>
+
+                        <!-- 5. Count Spaces -->
+                        <div class="op-card" data-operation="count-spaces">
+                            <div class="op-icon cyan"><i class="fa-solid fa-arrows-left-right"></i></div>
+                            <div class="op-details">
+                                <h4>5. Count Spaces</h4>
+                                <p>Calculates whitespace and tab count</p>
+                            </div>
+                            <button class="btn-execute">Execute <i class="fa-solid fa-play"></i></button>
+                        </div>
+
+                        <!-- 6. Remove Spaces -->
+                        <div class="op-card" data-operation="remove-spaces">
+                            <div class="op-icon rose"><i class="fa-solid fa-compress"></i></div>
+                            <div class="op-details">
+                                <h4>6. Remove Spaces</h4>
+                                <p>Eliminates all whitespaces cleanly</p>
+                            </div>
+                            <button class="btn-execute">Execute <i class="fa-solid fa-play"></i></button>
+                        </div>
+
+                        <!-- 7. Convert Case -->
+                        <div class="op-card case-card" data-operation="convert-case">
+                            <div class="op-icon orange"><i class="fa-solid fa-text-height"></i></div>
+                            <div class="op-details">
+                                <h4>7. Convert Case</h4>
+                                <p>Uppercase, Lowercase, or Toggle Case</p>
+                                <div class="case-selector">
+                                    <label><input type="radio" name="case-mode" value="UPPER" checked> UPPER</label>
+                                    <label><input type="radio" name="case-mode" value="LOWER"> lower</label>
+                                    <label><input type="radio" name="case-mode" value="TOGGLE"> tOGGLE</label>
+                                </div>
+                            </div>
+                            <button class="btn-execute">Execute <i class="fa-solid fa-play"></i></button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- History Section -->
+                <section id="history-section" class="dashboard-section">
+                    <div class="card glass-panel">
+                        <div class="card-header">
+                            <div class="header-left">
+                                <i class="fa-solid fa-clock-rotate-left"></i>
+                                <h3>Recent Operation History</h3>
+                            </div>
+                            <button class="btn btn-ghost btn-sm" id="btn-clear-history">
+                                <i class="fa-solid fa-eraser"></i> Clear History
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="history-table-container">
+                                <table class="history-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Timestamp</th>
+                                            <th>Operation</th>
+                                            <th>Input Preview</th>
+                                            <th>Result</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="history-list">
+                                        <tr class="empty-row">
+                                            <td colspan="5">No operations executed yet. Start manipulating text above!</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- About Project Section -->
+                <section id="about-section" class="dashboard-section">
+                    <div class="card glass-panel">
+                        <div class="card-header">
+                            <div class="header-left">
+                                <i class="fa-solid fa-circle-info"></i>
+                                <h3>About StringCraft</h3>
+                            </div>
+                        </div>
+                        <div class="card-body about-content">
+                            <p><strong>StringCraft</strong> is an educational and practical Data Structures & Algorithms (DSA) project built with Java and modern web technologies. It focuses on clean code, algorithm efficiency, modular architecture, and rich user experience.</p>
+                            
+                            <div class="tech-stack-grid">
+                                <div class="tech-item">
+                                    <i class="fa-brands fa-java"></i>
+                                    <div>
+                                        <h5>Java 17</h5>
+                                        <span>Core algorithm logic and two-pointer manipulation</span>
+                                    </div>
+                                </div>
+                                <div class="tech-item">
+                                    <i class="fa-solid fa-leaf"></i>
+                                    <div>
+                                        <h5>Spring Boot 3</h5>
+                                        <span>RESTful API endpoints and exception handling</span>
+                                    </div>
+                                </div>
+                                <div class="tech-item">
+                                    <i class="fa-brands fa-html5"></i>
+                                    <div>
+                                        <h5>HTML5 & CSS3</h5>
+                                        <span>Responsive glassmorphism dashboard UI</span>
+                                    </div>
+                                </div>
+                                <div class="tech-item">
+                                    <i class="fa-brands fa-js"></i>
+                                    <div>
+                                        <h5>Modern JS</h5>
+                                        <span>Async fetch APIs, live character counter & theme management</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Developer Profile Section -->
+                <section id="profile-section" class="dashboard-section">
+                    <div class="card glass-panel profile-card">
+                        <div class="profile-avatar">
+                            <div class="avatar-circle">AP</div>
+                        </div>
+                        <div class="profile-info">
+                            <h3>Aman Patel</h3>
+                            <p class="role-title">Software Developer & DSA Enthusiast</p>
+                            <p class="bio">Building high performance full-stack applications with Java, Spring Boot, and modern web frameworks.</p>
+                            <div class="profile-tags">
+                                <span>Java</span>
+                                <span>Spring Boot</span>
+                                <span>DSA</span>
+                                <span>REST APIs</span>
+                                <span>Frontend</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="toast" id="toast">Notification text</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
